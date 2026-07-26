@@ -191,6 +191,23 @@ export default function Layout({ children, activeRoute }: LayoutProps) {
                   }}
                 >
                   <a
+                    href={routeHref('inputs/medications')}
+                    role="menuitem"
+                    onClick={() => setMenuOpen(false)}
+                    style={{
+                      display: 'block',
+                      width: '100%',
+                      padding: '10px 12px',
+                      borderRadius: 8,
+                      color: '#3f3f46',
+                      fontSize: 13,
+                      fontWeight: 500,
+                      textDecoration: 'none',
+                    }}
+                  >
+                    Medications
+                  </a>
+                  <a
                     href={routeHref('shared')}
                     role="menuitem"
                     onClick={() => setMenuOpen(false)}

@@ -8,6 +8,7 @@ import { legacyRedirectPath, parseHashRoute, type AppRoute } from './lib/routing
 import AuthPage from './pages/AuthPage'
 import Dashboard from './pages/Dashboard'
 import InputsZone from './pages/InputsZone'
+import MedicationsPage from './pages/MedicationsPage'
 import OutputsZone from './pages/OutputsZone'
 import ProfilePage from './pages/ProfilePage'
 import SharedWithMePage from './pages/SharedWithMePage'
@@ -60,6 +61,10 @@ function AppContent() {
         ) : route === 'shared' ? (
           <PageShell zone="profile">
             <SharedWithMePage />
+          </PageShell>
+        ) : route === 'inputs/medications' ? (
+          <PageShell zone="profile">
+            <MedicationsPage />
           </PageShell>
         ) : route === 'inputs' || route === 'inputs/recipes' ? (
           <InputsZone route={route} />
