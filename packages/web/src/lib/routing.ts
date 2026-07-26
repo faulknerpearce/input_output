@@ -2,6 +2,7 @@ export type AppRoute =
   | 'dashboard'
   | 'inputs'
   | 'inputs/recipes'
+  | 'inputs/medications'
   | 'outputs'
   | 'outputs/workouts'
   | 'profile'
@@ -18,6 +19,7 @@ export function parseHashRoute(hash: string): AppRoute {
   const path = hash.replace(/^#/, '').replace(/^\//, '')
   if (path in LEGACY_REDIRECTS) return LEGACY_REDIRECTS[path]
   if (path === 'inputs/recipes') return 'inputs/recipes'
+  if (path === 'inputs/medications') return 'inputs/medications'
   if (path === 'outputs/workouts') return 'outputs/workouts'
   if (path === 'inputs') return 'inputs'
   if (path === 'outputs') return 'outputs'
@@ -29,6 +31,7 @@ export function parseHashRoute(hash: string): AppRoute {
 export function routeHref(route: AppRoute): string {
   if (route === 'inputs') return '#/inputs'
   if (route === 'inputs/recipes') return '#/inputs/recipes'
+  if (route === 'inputs/medications') return '#/inputs/medications'
   if (route === 'outputs') return '#/outputs'
   if (route === 'outputs/workouts') return '#/outputs/workouts'
   if (route === 'profile') return '#/profile'
@@ -37,6 +40,7 @@ export function routeHref(route: AppRoute): string {
 }
 
 export function routeZone(route: AppRoute): AppZone {
+  if (route === 'inputs/medications') return 'profile'
   if (route.startsWith('inputs')) return 'inputs'
   if (route.startsWith('outputs')) return 'outputs'
   if (route === 'profile' || route === 'shared') return 'profile'

@@ -625,6 +625,101 @@ export type Database = {
         }
         Relationships: []
       }
+      medications: {
+        Row: {
+          id: string
+          user_id: string
+          name: string
+          brand_name: string
+          strength: string
+          interval_hours: number
+          how_to_take: string
+          schedule: string
+          used_for: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          name: string
+          brand_name?: string
+          strength?: string
+          interval_hours: number
+          how_to_take?: string
+          schedule?: string
+          used_for?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          name?: string
+          brand_name?: string
+          strength?: string
+          interval_hours?: number
+          how_to_take?: string
+          schedule?: string
+          used_for?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'medications_user_id_fkey'
+            columns: ['user_id']
+            isOneToOne: false
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      medication_doses: {
+        Row: {
+          id: string
+          user_id: string
+          medication_id: string
+          dose_date: string
+          taken_at: string
+          notes: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          medication_id: string
+          dose_date?: string
+          taken_at?: string
+          notes?: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          medication_id?: string
+          dose_date?: string
+          taken_at?: string
+          notes?: string
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'medication_doses_user_id_fkey'
+            columns: ['user_id']
+            isOneToOne: false
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'medication_doses_medication_id_fkey'
+            columns: ['medication_id']
+            isOneToOne: false
+            referencedRelation: 'medications'
+            referencedColumns: ['id']
+          },
+        ]
+      }
     }
     Views: Record<string, never>
     Functions: {
