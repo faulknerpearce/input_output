@@ -2,7 +2,7 @@ import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
 import { describe, expect, it, vi } from 'vitest'
-import type { RecipeSummary } from '@body-io/shared'
+import type { RecipeSummary } from '@input_output/shared'
 import RecipeCombobox from '../components/RecipeCombobox'
 import { renderWithProviders } from './testUtils'
 

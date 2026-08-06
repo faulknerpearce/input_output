@@ -10,7 +10,7 @@ import {
   todayISO,
   type DailyEnergySnapshot,
   type TrendsRangePreset,
-} from '@body-io/shared'
+} from '@input_output/shared'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNutritionGoals, useProfile } from '../context/useProfile'
 import { sectionHeader as sectionLabelStyle } from '../lib/styles'

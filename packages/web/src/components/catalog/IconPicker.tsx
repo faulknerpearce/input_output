@@ -1,4 +1,4 @@
-import type { IconOption } from '@body-io/shared'
+import type { IconOption } from '@input_output/shared'
 import { labelBase } from '../../lib/styles'
 
 interface IconPickerProps {

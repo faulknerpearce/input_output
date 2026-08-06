@@ -3,7 +3,7 @@ import {
   formatLogTime,
   mapEntriesToMealMarkers,
   niceCalorieAxisMax,
-} from '@body-io/shared'
+} from '@input_output/shared'
 import { useMemo, useState } from 'react'
 import type { FoodEntry } from '../../lib/entries'
 

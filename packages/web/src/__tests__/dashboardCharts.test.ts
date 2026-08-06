@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { computeNetBalance } from '@body-io/shared'
+import { computeNetBalance } from '@input_output/shared'
 import {
   macroCalorieSplit,
   macroTotalCalories,

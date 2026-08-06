@@ -1,4 +1,4 @@
-import { parseISODate, type DailyEnergySnapshot } from '@body-io/shared'
+import { parseISODate, type DailyEnergySnapshot } from '@input_output/shared'
 import { useMemo } from 'react'
 import { neutrals, ZONE_BLUE, ZONE_INPUT, ZONE_OUTPUT } from '../../lib/design-tokens'
 import { useMediaQuery } from '../../lib/useMediaQuery'

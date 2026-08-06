@@ -3,7 +3,7 @@ import {
   resolveLogWorkoutMetrics,
   type WorkoutSummary,
   type WorkoutWithExercises,
-} from '@body-io/shared'
+} from '@input_output/shared'
 import { fetchWorkout } from '../lib/workouts'
 import { focusIfDesktop } from '../lib/device'
 import { inputBase, labelBase } from '../lib/styles'

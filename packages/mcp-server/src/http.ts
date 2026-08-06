@@ -5,7 +5,7 @@ import { createAuthenticatedSupabase, createServer } from './server.js'
 export interface McpEnv {
   SUPABASE_URL: string
   SUPABASE_ANON_KEY: string
-  /** Public origin for OAuth metadata, e.g. https://body-io.pages.dev */
+  /** Public origin for OAuth metadata, e.g. https://input-output.pages.dev */
   MCP_PUBLIC_URL: string
   OAUTH_SIGNING_SECRET?: string
 }

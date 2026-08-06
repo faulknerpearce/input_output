@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import type { Medication, MedicationInput, MedicationSchedule } from '@body-io/shared'
+import type { Medication, MedicationInput, MedicationSchedule } from '@input_output/shared'
 import { focusIfDesktop } from '../lib/device'
 import {
   inputBase,

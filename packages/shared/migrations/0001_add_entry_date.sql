@@ -1,7 +1,7 @@
 -- 0001_add_entry_date.sql
 -- Adds an entry_date column to scope "today's" log.
 --
--- Run this in the Supabase SQL editor against the body_io project.
+-- Run this in the Supabase SQL editor against the input_output project.
 -- Idempotent: safe to run multiple times.
 
 -- 1. Add the column (no NOT NULL yet, so existing rows can be backfilled).

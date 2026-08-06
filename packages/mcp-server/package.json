@@ -1,5 +1,5 @@
 {
-  "name": "@body-io/mcp-server",
+  "name": "@input_output/mcp-server",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.5.0",
-    "@body-io/shared": "*",
+    "@input_output/shared": "*",
     "@supabase/supabase-js": "^2.49.0",
     "dotenv": "^17.4.2"
   },

@@ -1,4 +1,4 @@
-import type { NetBalance } from '@body-io/shared'
+import type { NetBalance } from '@input_output/shared'
 import { useMemo } from 'react'
 import {
   neutrals,

@@ -2,7 +2,7 @@ import {
   DEFAULT_NUTRITION_GOALS,
   type GoalRange,
   type NutritionGoals,
-} from '@body-io/shared'
+} from '@input_output/shared'
 
 export type GoalKey = keyof NutritionGoals
 

@@ -3,7 +3,7 @@ import {
   sumTotals,
   type FoodEntry,
   type NutritionGoals,
-} from '@body-io/shared'
+} from '@input_output/shared'
 import type { MetricConfig } from '../components/MetricCard'
 
 const fmtInt = (n: number) => n.toLocaleString()

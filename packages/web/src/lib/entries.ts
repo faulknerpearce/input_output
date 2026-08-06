@@ -12,7 +12,7 @@ import {
   type FoodEntry,
   type FoodEntryWrite,
   type Totals,
-} from '@body-io/shared'
+} from '@input_output/shared'
 import { markEntryShareSaved } from './sharing'
 import { supabase } from './supabase'
 

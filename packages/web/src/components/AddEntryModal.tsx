@@ -13,7 +13,7 @@ import {
   type IconOption,
   type PortionUnit,
   type RecipeSummary,
-} from '@body-io/shared'
+} from '@input_output/shared'
 import { focusIfDesktop } from '../lib/device'
 import type { MappedBarcodeProduct } from '../lib/openFoodFacts'
 import { sortRecipesByName } from '../lib/recipeFilters'

@@ -1,6 +1,6 @@
 import { BrowserMultiFormatReader, type IScannerControls } from '@zxing/browser'
 import { BarcodeFormat, DecodeHintType } from '@zxing/library'
-import { normalizeBarcode } from '@body-io/shared'
+import { normalizeBarcode } from '@input_output/shared'
 import { useEffect, useRef, useState } from 'react'
 import type { MappedBarcodeProduct } from '../lib/openFoodFacts'
 import { lookupBarcodeProduct, ProductNotFoundError } from '../lib/openFoodFacts'

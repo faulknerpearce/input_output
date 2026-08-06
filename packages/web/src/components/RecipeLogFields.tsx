@@ -1,5 +1,5 @@
 import type { RefObject } from 'react'
-import { todayISOInTimeZone, type PortionUnit, type RecipeSummary } from '@body-io/shared'
+import { todayISOInTimeZone, type PortionUnit, type RecipeSummary } from '@input_output/shared'
 import {
   computeRecipeLogPreview,
   recipeLogHelperText,

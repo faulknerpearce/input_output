@@ -5,7 +5,7 @@ import {
   type NewWorkoutExercise,
   type WorkoutInput,
   type WorkoutWithExercises,
-} from '@body-io/shared'
+} from '@input_output/shared'
 import CatalogListSection from './catalog/CatalogListSection'
 import CatalogModalHeader from './catalog/CatalogModalHeader'
 import IconPicker from './catalog/IconPicker'

@@ -1,6 +1,6 @@
 # Local `wrangler pages dev` / manual deploy from packages/web.
 # Cloudflare Git builds use the repo-root wrangler.toml (output: packages/web/dist).
-name = "body-io"
+name = "input-output"
 compatibility_date = "2025-01-15"
 compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = "./dist"

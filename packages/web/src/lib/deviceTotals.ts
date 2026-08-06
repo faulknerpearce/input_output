@@ -1,4 +1,4 @@
-import { validateDeviceTotalKcal } from '@body-io/shared'
+import { validateDeviceTotalKcal } from '@input_output/shared'
 import { supabase } from './supabase'
 
 async function requireUserId(): Promise<string> {

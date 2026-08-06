@@ -1,4 +1,4 @@
-import type { WorkoutSummary } from '@body-io/shared'
+import type { WorkoutSummary } from '@input_output/shared'
 
 export type WorkoutSortOption =
   | 'name-asc'

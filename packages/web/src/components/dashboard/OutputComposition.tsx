@@ -1,4 +1,4 @@
-import type { NetBalance } from '@body-io/shared'
+import type { NetBalance } from '@input_output/shared'
 import { neutrals, ZONE_OUTPUT } from '../../lib/design-tokens'
 
 interface OutputCompositionProps {

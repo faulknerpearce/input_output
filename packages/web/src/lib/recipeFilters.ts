@@ -1,4 +1,4 @@
-import type { RecipeSummary } from '@body-io/shared'
+import type { RecipeSummary } from '@input_output/shared'
 
 export type RecipeSortOption =
   | 'name-asc'

@@ -12,7 +12,7 @@ import {
   type Activity,
   type ActivityTotals,
   type ActivityWrite,
-} from '@body-io/shared'
+} from '@input_output/shared'
 import { markActivityShareSaved } from './sharing'
 import { supabase } from './supabase'
 

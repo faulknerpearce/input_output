@@ -1,4 +1,4 @@
-import type { RecipeSummary } from '@body-io/shared'
+import type { RecipeSummary } from '@input_output/shared'
 import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import { filterRecipesForPicker, recipeOptionLabel } from '../lib/recipeFilters'
 import { inputBase, labelBase } from '../lib/styles'

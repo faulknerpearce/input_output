@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import type { RecipeWithIngredients } from '@body-io/shared'
+import type { RecipeWithIngredients } from '@input_output/shared'
 import { fetchRecipe } from '../lib/recipes'
 import {
   catalogItemCard,

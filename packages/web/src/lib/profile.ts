@@ -4,7 +4,7 @@ import {
   mapProfileRow,
   type ProfileUpdate,
   type UserProfile,
-} from '@body-io/shared'
+} from '@input_output/shared'
 import { supabase } from './supabase'
 
 export type { ProfileUpdate, UserProfile }

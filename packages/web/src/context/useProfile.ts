@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { DEFAULT_NUTRITION_GOALS } from '@body-io/shared'
+import { DEFAULT_NUTRITION_GOALS } from '@input_output/shared'
 import { ProfileContext } from './profile-context'
 
 export function useProfile() {

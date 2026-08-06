@@ -6,12 +6,12 @@ describe('publicToolManifest', () => {
   it('exposes server metadata and valid tools for connector probes', () => {
     const manifest = publicToolManifest()
 
-    expect(manifest.serverInfo.name).toBe('body_io')
+    expect(manifest.serverInfo.name).toBe('input_output')
     expect(manifest.tools).toHaveLength(21)
 
     for (const tool of manifest.tools) {
       expect(ToolSchema.safeParse(tool).success).toBe(true)
-      expect(tool.description?.toLowerCase()).toContain('body io')
+      expect(tool.description?.toLowerCase()).toContain('input output')
     }
   })
 })

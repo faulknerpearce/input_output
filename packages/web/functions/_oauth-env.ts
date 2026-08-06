@@ -1,4 +1,4 @@
-import type { OAuthEnv } from '@body-io/mcp-server/oauth'
+import type { OAuthEnv } from '@input_output/mcp-server/oauth'
 
 export interface PagesOAuthEnv {
   SUPABASE_URL: string

@@ -6,7 +6,7 @@ import {
   type PortionUnit,
   type RecipeSummary,
   type Totals,
-} from '@body-io/shared'
+} from '@input_output/shared'
 
 export interface RecipeLogFieldValues {
   entryDate: string

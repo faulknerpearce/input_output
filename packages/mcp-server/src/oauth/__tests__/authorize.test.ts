@@ -6,7 +6,7 @@ const ENV: OAuthEnv = {
   SUPABASE_URL: 'https://test.supabase.co',
   SUPABASE_ANON_KEY: 'anon',
   OAUTH_SIGNING_SECRET: 'test-signing-secret',
-  MCP_PUBLIC_URL: 'https://body-io.pages.dev',
+  MCP_PUBLIC_URL: 'https://input-output.pages.dev',
 }
 
 describe('handleAuthorize (GET)', () => {
@@ -41,7 +41,7 @@ describe('handleAuthorize (GET)', () => {
     expect(res.status).toBe(200)
     expect(res.headers.get('Content-Type')).toMatch(/text\/html/)
     const body = await res.text()
-    expect(body).toContain('Connect to body io')
+    expect(body).toContain('Connect to input output')
     expect(body).toContain('name="state" value="xyz"')
   })
 })

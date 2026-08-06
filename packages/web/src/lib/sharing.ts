@@ -22,7 +22,7 @@ import {
   type ShareUserResult,
   type WorkoutShareRecord,
   type WorkoutSummary,
-} from '@body-io/shared'
+} from '@input_output/shared'
 import { supabase } from './supabase'
 
 export interface SharedRecipeItem {

@@ -1,5 +1,5 @@
 {
-  "name": "@body-io/web",
+  "name": "@input_output/web",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -17,8 +17,8 @@
     "pages:dev": "wrangler pages dev dist --compatibility-date=2025-01-15 --port 8788"
   },
   "dependencies": {
-    "@body-io/mcp-server": "*",
-    "@body-io/shared": "*",
+    "@input_output/mcp-server": "*",
+    "@input_output/shared": "*",
     "@supabase/supabase-js": "^2.108.2",
     "@zxing/browser": "^0.1.5",
     "dotenv": "^17.4.2",

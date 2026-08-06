@@ -3,7 +3,7 @@ import {
   summarizeDailyEnergyPeriod,
   type DailyEnergySnapshot,
   type TrendsRangePreset,
-} from '@body-io/shared'
+} from '@input_output/shared'
 import { useState } from 'react'
 import {
   neutrals,

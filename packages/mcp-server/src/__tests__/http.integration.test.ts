@@ -100,7 +100,7 @@ describe('handleMcp HTTP integration', () => {
           tools: expect.any(Object),
         }),
         serverInfo: {
-          name: 'body_io',
+          name: 'input_output',
           version: '1.3.0',
         },
       },

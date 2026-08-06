@@ -18,7 +18,7 @@ import {
   type WorkoutInput,
   type WorkoutSummary,
   type WorkoutWithExercises,
-} from '@body-io/shared'
+} from '@input_output/shared'
 import { markWorkoutShareSaved } from './sharing'
 import { supabase } from './supabase'
 

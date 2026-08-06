@@ -4,7 +4,7 @@ import {
   shiftISODate,
   sumTotals,
   todayISOInTimeZone,
-} from '@body-io/shared'
+} from '@input_output/shared'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNutritionGoals, useProfile } from '../context/useProfile'
 import AddEntryModal from '../components/AddEntryModal'
@@ -178,7 +178,7 @@ export default function InputsPage({
   async function persistLogRecipe(
     recipeId: string,
     options: {
-      portionUnit: import('@body-io/shared').PortionUnit
+      portionUnit: import('@input_output/shared').PortionUnit
       portionQuantity: number
       servingWeightGrams?: number
       loggedAt?: string

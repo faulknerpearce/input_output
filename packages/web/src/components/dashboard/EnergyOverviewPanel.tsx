@@ -1,4 +1,4 @@
-import type { NetBalance } from '@body-io/shared'
+import type { NetBalance } from '@input_output/shared'
 import { netRingProgress } from '../../lib/dashboardCharts'
 import { neutrals, radius, type as typeScale } from '../../lib/design-tokens'
 import ProgressRing from '../charts/ProgressRing'

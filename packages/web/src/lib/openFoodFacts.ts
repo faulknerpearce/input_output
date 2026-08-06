@@ -2,7 +2,7 @@ import {
   mapOpenFoodFactsToEntry,
   type MappedBarcodeProduct,
   type OpenFoodFactsProduct,
-} from '@body-io/shared'
+} from '@input_output/shared'
 
 export type { MappedBarcodeProduct }
 

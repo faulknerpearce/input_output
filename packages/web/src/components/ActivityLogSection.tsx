@@ -1,4 +1,4 @@
-import { formatDistance, formatDuration } from '@body-io/shared'
+import { formatDistance, formatDuration } from '@input_output/shared'
 import { useState } from 'react'
 import type { Activity, ActivityWrite } from '../lib/activities'
 import { NEUTRAL_LIGHT, neutrals, radius } from '../lib/design-tokens'

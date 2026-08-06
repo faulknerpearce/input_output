@@ -14,8 +14,8 @@ import {
   type RecipeInput,
   type RecipeSummary,
   type RecipeWithIngredients,
-} from '@body-io/shared'
-import type { BodyIOSupabase } from './supabase.js'
+} from '@input_output/shared'
+import type { InputOutputSupabase } from './supabase.js'
 import { fetchUserTimeZone } from './toolHandlers.js'
 import { requireUserId } from './toolHandlers.js'
 
@@ -34,7 +34,7 @@ function toSummary(
   }
 }
 
-export async function listRecipes(supabase: BodyIOSupabase): Promise<RecipeSummary[]> {
+export async function listRecipes(supabase: InputOutputSupabase): Promise<RecipeSummary[]> {
   const { data: recipes, error } = await supabase
     .from('recipes')
     .select('*')
@@ -64,7 +64,7 @@ export async function listRecipes(supabase: BodyIOSupabase): Promise<RecipeSumma
 }
 
 export async function getRecipe(
-  supabase: BodyIOSupabase,
+  supabase: InputOutputSupabase,
   recipeId: string,
 ): Promise<RecipeWithIngredients> {
   const { data: recipeRow, error } = await supabase
@@ -94,7 +94,7 @@ export async function getRecipe(
 }
 
 async function replaceRecipeIngredients(
-  supabase: BodyIOSupabase,
+  supabase: InputOutputSupabase,
   recipeId: string,
   userId: string,
   ingredients: RecipeInput['ingredients'],
@@ -155,7 +155,7 @@ function parseRecipeInput(args: RecipeToolArgs): RecipeInput {
 }
 
 export async function saveRecipe(
-  supabase: BodyIOSupabase,
+  supabase: InputOutputSupabase,
   args: RecipeToolArgs,
 ): Promise<RecipeWithIngredients> {
   const input = parseRecipeInput(args)
@@ -192,13 +192,13 @@ export async function saveRecipe(
   return getRecipe(supabase, recipeId)
 }
 
-export async function deleteRecipe(supabase: BodyIOSupabase, recipeId: string) {
+export async function deleteRecipe(supabase: InputOutputSupabase, recipeId: string) {
   const { error } = await supabase.from('recipes').delete().eq('id', recipeId)
   if (error) throw error
   return { ok: true as const }
 }
 
-export async function logRecipeEntry(supabase: BodyIOSupabase, args: RecipeToolArgs) {
+export async function logRecipeEntry(supabase: InputOutputSupabase, args: RecipeToolArgs) {
   if (typeof args.recipeId !== 'string' && typeof args.recipe_id !== 'string') {
     throw new Error('recipeId is required')
   }

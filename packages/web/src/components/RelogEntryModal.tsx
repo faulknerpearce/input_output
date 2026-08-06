@@ -8,7 +8,7 @@ import {
   type FoodEntry,
   type FoodEntryWrite,
   type PortionUnit,
-} from '@body-io/shared'
+} from '@input_output/shared'
 import { focusIfDesktop } from '../lib/device'
 import { inputBase, labelBase } from '../lib/styles'
 import Modal from './Modal'

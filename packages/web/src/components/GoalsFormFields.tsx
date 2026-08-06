@@ -1,4 +1,4 @@
-import type { NutritionGoals } from '@body-io/shared'
+import type { NutritionGoals } from '@input_output/shared'
 import { useEffect, useRef, useState } from 'react'
 import { GOAL_FIELDS, parseGoalField, type GoalKey } from '../lib/goalsForm'
 import { inputBase, labelBase } from '../lib/styles'

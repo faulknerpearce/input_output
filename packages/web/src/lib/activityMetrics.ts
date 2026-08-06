@@ -3,7 +3,7 @@ import {
   formatDuration,
   sumActivityTotals,
   type Activity,
-} from '@body-io/shared'
+} from '@input_output/shared'
 
 export interface ActivityMetricConfig {
   label: string

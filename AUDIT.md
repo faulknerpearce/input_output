@@ -1,6 +1,6 @@
 # Codebase Audit
 
-A one-time audit of `body_io` to remove dead code, misconfigurations,
+A one-time audit of `input_output` to remove dead code, misconfigurations,
 and duplications. Findings are organised by phase; each phase was applied as a
 single, focused change set.
 
@@ -16,7 +16,7 @@ single, focused change set.
 | `getAccessToken`                           | Unused helper in `lib/entries.ts`                                                               |
 | `packages/web/functions/api/entries/`      | Empty dir left over from the removed `/api/entries` proxy                                       |
 | `path === 'history'` alias in `routing.ts` | Vestigial alias no link or test ever produced                                                   |
-| `entries.ts` re-export of `sumTotals` etc. | All consumers already import from `@body-io/shared` directly                          |
+| `entries.ts` re-export of `sumTotals` etc. | All consumers already import from `@input_output/shared` directly                          |
 | Re-imports of `calGoal`/`proGoal`/etc.     | Brought in only because the unused re-export needed them                                        |
 
 ## Phase 2 — Misconfig fixes

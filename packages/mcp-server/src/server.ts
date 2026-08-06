@@ -4,8 +4,8 @@ import {
   ListToolsRequestSchema,
   type Tool,
 } from '@modelcontextprotocol/sdk/types.js'
-import { parseLogDate, todayISOInTimeZone } from '@body-io/shared'
-import type { BodyIOSupabase } from './supabase.js'
+import { parseLogDate, todayISOInTimeZone } from '@input_output/shared'
+import type { InputOutputSupabase } from './supabase.js'
 import {
   addActivityForDate,
   addFoodEntryForDate,
@@ -36,7 +36,7 @@ import {
   saveWorkout,
 } from './workoutHandlers.js'
 
-export { createAuthenticatedSupabase, type BodyIOSupabase } from './supabase.js'
+export { createAuthenticatedSupabase, type InputOutputSupabase } from './supabase.js'
 
 /** JSON Schema object inputs — strict shape Grok and other MCP clients expect. */
 function objectSchema(
@@ -111,7 +111,7 @@ const activityFields = {
   calories: { type: 'number', description: 'Optional calories burned' },
 }
 
-async function resolveLogDateArg(supabase: BodyIOSupabase, value: unknown): Promise<string> {
+async function resolveLogDateArg(supabase: InputOutputSupabase, value: unknown): Promise<string> {
   const timeZone = await fetchUserTimeZone(supabase)
   const parsed = parseLogDate(value, {
     fallback: todayISOInTimeZone(timeZone),
@@ -122,7 +122,7 @@ async function resolveLogDateArg(supabase: BodyIOSupabase, value: unknown): Prom
 }
 
 async function resolveRequiredLogDateArg(
-  supabase: BodyIOSupabase,
+  supabase: InputOutputSupabase,
   value: unknown,
 ): Promise<string> {
   const timeZone = await fetchUserTimeZone(supabase)
@@ -131,20 +131,20 @@ async function resolveRequiredLogDateArg(
   return parsed.value
 }
 
-export const SERVER_NAME = 'body_io'
+export const SERVER_NAME = 'input_output'
 export const SERVER_VERSION = '1.3.0'
 
 export const tools: Tool[] = [
   {
     name: 'list_food_entries',
     description:
-      'Body IO: list food log entries and meals for a day (calories, protein, carbs, fat, fiber, caffeine). Works for past days.',
+      'Input Output: list food log entries and meals for a day (calories, protein, carbs, fat, fiber, caffeine). Works for past days.',
     inputSchema: objectSchema({ date: dateProperty }),
   },
   {
     name: 'add_food_entry',
     description:
-      'Body IO: add a food or meal entry to the daily nutrition log with calories and macros. Pass date to log on a past day.',
+      'Input Output: add a food or meal entry to the daily nutrition log with calories and macros. Pass date to log on a past day.',
     inputSchema: objectSchema(
       {
         date: dateProperty,
@@ -157,7 +157,7 @@ export const tools: Tool[] = [
   {
     name: 'update_food_entry',
     description:
-      'Body IO: update an existing food log entry by id. Pass date to move the entry to another day.',
+      'Input Output: update an existing food log entry by id. Pass date to move the entry to another day.',
     inputSchema: objectSchema(
       {
         id: { type: 'string', description: 'ID of the entry to update' },
@@ -180,7 +180,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'delete_food_entry',
-    description: 'Body IO: delete a food log entry by id.',
+    description: 'Input Output: delete a food log entry by id.',
     inputSchema: objectSchema(
       { id: { type: 'string', description: 'ID of the entry to delete' } },
       ['id'],
@@ -189,19 +189,19 @@ export const tools: Tool[] = [
   {
     name: 'get_daily_totals',
     description:
-      'Body IO: get daily nutrition totals (calories, protein, carbs, fat, fiber, caffeine) and remaining macro goals. Works for past days.',
+      'Input Output: get daily nutrition totals (calories, protein, carbs, fat, fiber, caffeine) and remaining macro goals. Works for past days.',
     inputSchema: objectSchema({ date: dateProperty }),
   },
   {
     name: 'list_activities',
     description:
-      'Body IO: list activity outputs (workouts) for a day — type, duration, distance, heart rate, calories burned. Works for past days.',
+      'Input Output: list activity outputs (workouts) for a day — type, duration, distance, heart rate, calories burned. Works for past days.',
     inputSchema: objectSchema({ date: dateProperty }),
   },
   {
     name: 'add_activity',
     description:
-      'Body IO: log a manual activity output with type, duration, distance, heart rate, and calories burned. Pass date to log on a past day.',
+      'Input Output: log a manual activity output with type, duration, distance, heart rate, and calories burned. Pass date to log on a past day.',
     inputSchema: objectSchema(
       {
         date: dateProperty,
@@ -214,7 +214,7 @@ export const tools: Tool[] = [
   {
     name: 'update_activity',
     description:
-      'Body IO: update an existing activity output by id. Pass date to move the activity to another day.',
+      'Input Output: update an existing activity output by id. Pass date to move the activity to another day.',
     inputSchema: objectSchema(
       {
         id: { type: 'string', description: 'ID of the activity to update' },
@@ -233,7 +233,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'delete_activity',
-    description: 'Body IO: delete an activity output by id.',
+    description: 'Input Output: delete an activity output by id.',
     inputSchema: objectSchema(
       { id: { type: 'string', description: 'ID of the activity to delete' } },
       ['id'],
@@ -242,13 +242,13 @@ export const tools: Tool[] = [
   {
     name: 'get_activity_totals',
     description:
-      'Body IO: get daily activity totals (calories burned, total duration, total distance). Works for past days.',
+      'Input Output: get daily activity totals (calories burned, total duration, total distance). Works for past days.',
     inputSchema: objectSchema({ date: dateProperty }),
   },
   {
     name: 'manage_day_log',
     description:
-      'Body IO: add, list, or edit food and activity logs for any calendar day, including past days. Use action=list to read a day; add_food/add_activity to create; update_* to edit by id; delete_* to remove.',
+      'Input Output: add, list, or edit food and activity logs for any calendar day, including past days. Use action=list to read a day; add_food/add_activity to create; update_* to edit by id; delete_* to remove.',
     inputSchema: objectSchema(
       {
         date: {
@@ -278,12 +278,12 @@ export const tools: Tool[] = [
   {
     name: 'list_recipes',
     description:
-      'Body IO: list saved meal recipes with per-serving macro totals and ingredient counts.',
+      'Input Output: list saved meal recipes with per-serving macro totals and ingredient counts.',
     inputSchema: objectSchema({}),
   },
   {
     name: 'get_recipe',
-    description: 'Body IO: get a saved recipe with all ingredient lines and macro totals.',
+    description: 'Input Output: get a saved recipe with all ingredient lines and macro totals.',
     inputSchema: objectSchema(
       { id: { type: 'string', description: 'Recipe id' } },
       ['id'],
@@ -292,7 +292,7 @@ export const tools: Tool[] = [
   {
     name: 'save_recipe',
     description:
-      'Body IO: create or update a saved recipe and its ingredient lines. Pass id to update.',
+      'Input Output: create or update a saved recipe and its ingredient lines. Pass id to update.',
     inputSchema: objectSchema({
       id: { type: 'string', description: 'Recipe id when updating' },
       name: { type: 'string', description: 'Recipe name' },
@@ -330,13 +330,13 @@ export const tools: Tool[] = [
   },
   {
     name: 'delete_recipe',
-    description: 'Body IO: delete a saved recipe by id.',
+    description: 'Input Output: delete a saved recipe by id.',
     inputSchema: objectSchema({ id: { type: 'string', description: 'Recipe id' } }, ['id']),
   },
   {
     name: 'log_recipe',
     description:
-      'Body IO: log one food entry from a saved recipe. Scale by servings or by grams eaten (requires recipe serving weight). Creates a single aggregated food log row.',
+      'Input Output: log one food entry from a saved recipe. Scale by servings or by grams eaten (requires recipe serving weight). Creates a single aggregated food log row.',
     inputSchema: objectSchema(
       {
         recipeId: { type: 'string', description: 'Recipe id to log' },
@@ -361,18 +361,18 @@ export const tools: Tool[] = [
   {
     name: 'list_workouts',
     description:
-      'Body IO: list saved workout templates with exercise counts and total target sets.',
+      'Input Output: list saved workout templates with exercise counts and total target sets.',
     inputSchema: objectSchema({}),
   },
   {
     name: 'get_workout',
-    description: 'Body IO: get a saved workout with all exercise lines.',
+    description: 'Input Output: get a saved workout with all exercise lines.',
     inputSchema: objectSchema({ id: { type: 'string', description: 'Workout id' } }, ['id']),
   },
   {
     name: 'save_workout',
     description:
-      'Body IO: create or update a saved workout and its exercise lines. Pass id to update.',
+      'Input Output: create or update a saved workout and its exercise lines. Pass id to update.',
     inputSchema: objectSchema(
       {
         id: { type: 'string', description: 'Workout id when updating' },
@@ -407,13 +407,13 @@ export const tools: Tool[] = [
   },
   {
     name: 'delete_workout',
-    description: 'Body IO: delete a saved workout by id.',
+    description: 'Input Output: delete a saved workout by id.',
     inputSchema: objectSchema({ id: { type: 'string', description: 'Workout id' } }, ['id']),
   },
   {
     name: 'log_workout',
     description:
-      'Body IO: log one activity from a saved workout. setsLogged is how many full rounds of the workout were completed (default 1).',
+      'Input Output: log one activity from a saved workout. setsLogged is how many full rounds of the workout were completed (default 1).',
     inputSchema: objectSchema(
       {
         workoutId: { type: 'string', description: 'Workout id to log' },
@@ -430,7 +430,7 @@ export const tools: Tool[] = [
   },
 ]
 
-export function createServer(supabase: BodyIOSupabase): Server {
+export function createServer(supabase: InputOutputSupabase): Server {
   const foodTools = tools
     .filter(
       (t) =>
@@ -453,7 +453,7 @@ export function createServer(supabase: BodyIOSupabase): Server {
   const workoutTools = tools
     .filter((t) => t.name.endsWith('_workout') || t.name === 'list_workouts')
     .map((t) => t.name)
-  const instructions = `body io tools for food inputs, saved recipes, saved workouts, and activity outputs. Food: ${foodTools.join(', ')}. Recipes: ${recipeTools.join(', ')}. Workouts: ${workoutTools.join(', ')}. Activities: ${activityTools.join(', ')}. Use log_recipe or add_food_entry to log meals; log_workout or add_activity for outputs. All data is scoped to the signed-in user.`
+  const instructions = `input output tools for food inputs, saved recipes, saved workouts, and activity outputs. Food: ${foodTools.join(', ')}. Recipes: ${recipeTools.join(', ')}. Workouts: ${workoutTools.join(', ')}. Activities: ${activityTools.join(', ')}. Use log_recipe or add_food_entry to log meals; log_workout or add_activity for outputs. All data is scoped to the signed-in user.`
 
   const server = new Server(
     { name: SERVER_NAME, version: SERVER_VERSION },

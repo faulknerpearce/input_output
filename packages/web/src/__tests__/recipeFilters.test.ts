@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import type { RecipeSummary } from '@body-io/shared'
+import type { RecipeSummary } from '@input_output/shared'
 import {
   filterAndSortRecipes,
   filterRecipesForPicker,

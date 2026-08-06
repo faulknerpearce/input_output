@@ -4,7 +4,7 @@
 #
 # For local `wrangler pages dev` runs, use packages/web/wrangler.toml —
 # both files share the same compatibility settings.
-name = "body-io"
+name = "input-output"
 compatibility_date = "2025-01-15"
 compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = "packages/web/dist"

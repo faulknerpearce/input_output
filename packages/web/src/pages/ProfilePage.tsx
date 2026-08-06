@@ -7,7 +7,7 @@ import {
   type ProfileGender,
   type ProfileUpdate,
   type UserProfile,
-} from '@body-io/shared'
+} from '@input_output/shared'
 import GoalsFormFields from '../components/GoalsFormFields'
 import Modal from '../components/Modal'
 import PageHeader from '../components/layout/PageHeader'

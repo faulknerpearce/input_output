@@ -1,4 +1,4 @@
-import { type NetBalance, type Totals } from '@body-io/shared'
+import { type NetBalance, type Totals } from '@input_output/shared'
 
 export interface RingProgress {
   pct: number

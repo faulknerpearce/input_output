@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
-import type { Database } from '@body-io/shared'
+import type { Database } from '@input_output/shared'
 import { signPayload } from './crypto.js'
 import { isValidRedirectUri } from './redirect.js'
 import type { AuthCodePayload, OAuthEnv } from './types.js'
@@ -62,7 +62,7 @@ function loginPage(params: AuthorizeParams, error?: string): Response {
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Authorize — body io</title>
+  <title>Authorize — input output</title>
   <style>
     * { box-sizing: border-box; }
     body { font-family: Inter, system-ui, sans-serif; background: #fafafa; margin: 0; padding: 24px; color: #18181b; }
@@ -77,7 +77,7 @@ function loginPage(params: AuthorizeParams, error?: string): Response {
 </head>
 <body>
   <div class="card">
-    <h1>Connect to body io</h1>
+    <h1>Connect to input output</h1>
     <p>Sign in to let Grok access your food log on your behalf.</p>
     ${error ? `<p class="error" role="alert">${escapeHtml(error)}</p>` : ''}
     <form method="POST" action="/authorize">

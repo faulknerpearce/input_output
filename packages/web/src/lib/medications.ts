@@ -13,7 +13,7 @@ import {
   type MedicationDoseDaySummary,
   type MedicationDoseInput,
   type MedicationInput,
-} from '@body-io/shared'
+} from '@input_output/shared'
 import { supabase } from './supabase'
 
 export type { Medication, MedicationDose, MedicationDoseDaySummary, MedicationDoseInput, MedicationInput }

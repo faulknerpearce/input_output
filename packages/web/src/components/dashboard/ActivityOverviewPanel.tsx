@@ -1,4 +1,4 @@
-import type { Activity } from '@body-io/shared'
+import type { Activity } from '@input_output/shared'
 import { buildActivityMetricConfigs } from '../../lib/activityMetrics'
 import { cardSurface } from '../../lib/styles'
 import { routeHref } from '../../lib/routing'

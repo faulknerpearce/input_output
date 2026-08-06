@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import type { WorkoutSummary } from '@body-io/shared'
+import type { WorkoutSummary } from '@input_output/shared'
 import { filterAndSortWorkouts, workoutMatchesQuery } from '../lib/workoutFilters'
 
 function workout(

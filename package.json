@@ -1,5 +1,5 @@
 {
-  "name": "body-io",
+  "name": "input_output",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -7,23 +7,23 @@
     "packages/*"
   ],
   "scripts": {
-    "build:shared": "npm run build -w @body-io/shared",
-    "build:mcp-server": "npm run build -w @body-io/mcp-server",
+    "build:shared": "npm run build -w @input_output/shared",
+    "build:mcp-server": "npm run build -w @input_output/mcp-server",
     "setup:env": "node -e \"const fs=require('fs'),path=require('path');const dest=path.join('packages','mcp-server','.env');if(!fs.existsSync(dest)){fs.copyFileSync(path.join('packages','mcp-server','.env.example'),dest);console.log('Created '+dest+' from .env.example. Fill in your Supabase credentials before running dev:mcp.');}\"",
-    "dev": "npm run build:shared && npm run dev -w @body-io/web",
-    "dev:mcp": "npm run setup:env && npm run build:shared && npm run dev -w @body-io/mcp-server",
+    "dev": "npm run build:shared && npm run dev -w @input_output/web",
+    "dev:mcp": "npm run setup:env && npm run build:shared && npm run dev -w @input_output/mcp-server",
     "prebuild": "npm run build:shared && npm run build:mcp-server",
-    "build": "npm run build -w @body-io/web",
+    "build": "npm run build -w @input_output/web",
     "pretypecheck": "npm run build:shared && npm run build:mcp-server",
     "typecheck": "npm run typecheck --workspaces --if-present",
-    "lint": "npm run lint -w @body-io/web",
+    "lint": "npm run lint -w @input_output/web",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "npm run build:shared && npm run test --workspaces --if-present",
-    "test:shared": "npm run test -w @body-io/shared",
-    "test:web": "npm run build:shared && npm run test -w @body-io/web",
-    "test:mcp": "npm run build:shared && npm run test -w @body-io/mcp-server",
-    "test:coverage": "npm run build:shared && npm run test:coverage -w @body-io/shared && npm run test:coverage -w @body-io/web && npm run test:coverage -w @body-io/mcp-server"
+    "test:shared": "npm run test -w @input_output/shared",
+    "test:web": "npm run build:shared && npm run test -w @input_output/web",
+    "test:mcp": "npm run build:shared && npm run test -w @input_output/mcp-server",
+    "test:coverage": "npm run build:shared && npm run test:coverage -w @input_output/shared && npm run test:coverage -w @input_output/web && npm run test:coverage -w @input_output/mcp-server"
   },
   "devDependencies": {
     "prettier": "3.4.2"

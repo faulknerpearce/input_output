@@ -1,7 +1,7 @@
 import {
   lookupOpenFoodFactsProduct,
   normalizeBarcode,
-} from '@body-io/shared'
+} from '@input_output/shared'
 import type { Plugin } from 'vite'
 
 /** Mirrors the Cloudflare Pages `/api/product/:barcode` handler during `vite dev`. */

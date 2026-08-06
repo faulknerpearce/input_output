@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
-import type { RecipeSummary } from '@body-io/shared'
+import type { RecipeSummary } from '@input_output/shared'
 import { focusIfDesktop } from '../lib/device'
 import Modal from './Modal'
 import RecipeLogFields from './RecipeLogFields'

@@ -7,7 +7,7 @@ const ENV: OAuthEnv = {
   SUPABASE_URL: 'https://test.supabase.co',
   SUPABASE_ANON_KEY: 'anon',
   OAUTH_SIGNING_SECRET: 'test-signing-secret',
-  MCP_PUBLIC_URL: 'https://body-io.pages.dev',
+  MCP_PUBLIC_URL: 'https://input-output.pages.dev',
 }
 
 function makeForm(fields: Record<string, string>): Request {

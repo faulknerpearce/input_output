@@ -1,4 +1,4 @@
-import type { FoodEntry, NutritionGoals } from '@body-io/shared'
+import type { FoodEntry, NutritionGoals } from '@input_output/shared'
 import { buildMetricConfigs } from '../../lib/metrics'
 import { cardSurface } from '../../lib/styles'
 import ProgressRing from '../charts/ProgressRing'
