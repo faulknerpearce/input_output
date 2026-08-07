@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import {
   foodIconOptions,
+  parseGramsFromAmount,
   perServingTotals,
+  scaleMacrosToGrams,
   sumRecipeIngredients,
   type IconOption,
+  type Ingredient,
   type NewRecipeIngredient,
   type RecipeInput,
   type RecipeWithIngredients,
@@ -13,6 +16,7 @@ import CatalogModalHeader from './catalog/CatalogModalHeader'
 import IconPicker from './catalog/IconPicker'
 import { focusIfDesktop } from '../lib/device'
 import type { MappedBarcodeProduct } from '../lib/openFoodFacts'
+import { fetchIngredients } from '../lib/ingredients'
 import {
   catalogItemCard,
   inputBase,
@@ -31,6 +35,7 @@ interface RecipeEditorModalProps {
 }
 
 interface IngredientForm {
+  ingredientId: string
   name: string
   amount: string
   calories: string
@@ -42,6 +47,7 @@ interface IngredientForm {
 }
 
 const EMPTY_INGREDIENT: IngredientForm = {
+  ingredientId: '',
   name: '',
   amount: '',
   calories: '',
@@ -65,6 +71,7 @@ function iconFromRecipe(recipe: RecipeWithIngredients): IconOption {
 
 function ingredientFormFromRecipe(recipe: RecipeWithIngredients): IngredientForm[] {
   return recipe.ingredients.map((ingredient) => ({
+    ingredientId: ingredient.ingredientId ?? '',
     name: ingredient.name,
     amount: ingredient.amount,
     calories: String(ingredient.calories),
@@ -85,6 +92,8 @@ function parseIngredient(form: IngredientForm, sortOrder: number): NewRecipeIngr
     name: form.name.trim(),
     amount: form.amount.trim(),
     sortOrder,
+    ingredientId: form.ingredientId.trim() || null,
+    amountGrams: form.ingredientId ? parseGramsFromAmount(form.amount.trim()) : null,
     calories,
     protein,
     carbs: form.carbs === '' ? 0 : parseInt(form.carbs, 10) || 0,
@@ -106,6 +115,7 @@ function ingredientFromProduct(product: MappedBarcodeProduct): IngredientForm {
       ? `${product.referenceWeightGrams}g`
       : product.servingNote || ''
   return {
+    ingredientId: '',
     name: entry.name,
     amount,
     calories: macroField(entry.calories),
@@ -149,12 +159,27 @@ export default function RecipeEditorModal({ recipe, onSave, onClose }: RecipeEdi
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [showScanner, setShowScanner] = useState(false)
+  const [catalogIngredients, setCatalogIngredients] = useState<Ingredient[]>([])
   const nameRef = useRef<HTMLInputElement | null>(null)
   const showScannerRef = useRef(false)
 
   useEffect(() => {
     showScannerRef.current = showScanner
   }, [showScanner])
+
+  useEffect(() => {
+    let cancelled = false
+    fetchIngredients()
+      .then((list) => {
+        if (!cancelled) setCatalogIngredients(list)
+      })
+      .catch(() => {
+        // Catalog is a convenience; a failed fetch falls back to manual lines.
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   useEffect(() => {
     focusIfDesktop(nameRef.current)
@@ -194,6 +219,39 @@ export default function RecipeEditorModal({ recipe, onSave, onClose }: RecipeEdi
 
   const removeIngredientRow = (index: number) => {
     setIngredients((prev) => (prev.length === 1 ? prev : prev.filter((_, i) => i !== index)))
+  }
+
+  const applyCatalogIngredient = (index: number, selected: Ingredient) => {
+    updateIngredient(index, {
+      ingredientId: selected.id,
+      name: selected.name,
+      amount: '100g',
+      calories: String(selected.per100g.calories),
+      protein: String(selected.per100g.protein),
+      carbs: String(selected.per100g.carbs),
+      fat: String(selected.per100g.fat),
+      fiber: String(selected.per100g.fiber),
+      caffeine: String(selected.per100g.caffeine),
+    })
+  }
+
+const handleAmountChange = (index: number, amount: string) => {
+    const row = ingredients[index]
+    updateIngredient(index, { amount })
+    if (!row?.ingredientId) return
+    const ingredient = catalogIngredients.find((c) => c.id === row.ingredientId)
+    if (!ingredient) return
+    const grams = parseGramsFromAmount(amount.trim())
+    if (grams === null) return
+    const totals = scaleMacrosToGrams(ingredient.per100g, grams)
+    updateIngredient(index, {
+      calories: String(totals.calories),
+      protein: String(totals.protein),
+      carbs: String(totals.carbs),
+      fat: String(totals.fat),
+      fiber: String(totals.fiber),
+      caffeine: String(totals.caffeine),
+    })
   }
 
   const applyScannedIngredient = (product: MappedBarcodeProduct) => {
@@ -395,6 +453,29 @@ export default function RecipeEditorModal({ recipe, onSave, onClose }: RecipeEdi
           <div key={index} style={catalogItemCard}>
             <div className="modal-form-grid" style={{ marginBottom: 12 }}>
               <div>
+                <label style={labelBase}>From ingredients</label>
+                <select
+                  value={row.ingredientId}
+                  onChange={(e) => {
+                    const id = e.target.value
+                    if (!id) {
+                      updateIngredient(index, { ingredientId: '' })
+                      return
+                    }
+                    const selected = catalogIngredients.find((c) => c.id === id)
+                    if (selected) applyCatalogIngredient(index, selected)
+                  }}
+                  style={inputBase}
+                >
+                  <option value="">— Manual entry —</option>
+                  {catalogIngredients.map((ing) => (
+                    <option key={ing.id} value={ing.id}>
+                      {ing.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
                 <label style={labelBase}>Name</label>
                 <input
                   value={row.name}
@@ -403,15 +484,18 @@ export default function RecipeEditorModal({ recipe, onSave, onClose }: RecipeEdi
                   style={inputBase}
                 />
               </div>
+            </div>
+            <div className="modal-form-grid" style={{ marginBottom: 12 }}>
               <div>
                 <label style={labelBase}>Amount</label>
                 <input
                   value={row.amount}
-                  onChange={(e) => updateIngredient(index, { amount: e.target.value })}
-                  placeholder="Optional (150g)"
+                  onChange={(e) => handleAmountChange(index, e.target.value)}
+                  placeholder={row.ingredientId ? '150g' : 'Optional (150g)'}
                   style={inputBase}
                 />
               </div>
+              <div />
             </div>
             <div className="modal-form-grid">
               {(['calories', 'protein', 'carbs', 'fat', 'fiber', 'caffeine'] as const).map(
@@ -429,6 +513,13 @@ export default function RecipeEditorModal({ recipe, onSave, onClose }: RecipeEdi
                 ),
               )}
             </div>
+            {row.ingredientId && (
+              <p style={{ margin: '10px 0 0', fontSize: 11, color: '#a1a1aa' }}>
+                Linked to{' '}
+                {catalogIngredients.find((c) => c.id === row.ingredientId)?.name ?? 'ingredient'}.
+                Enter an amount like 150g to auto-fill macros from per-100g values.
+              </p>
+            )}
             {ingredients.length > 1 && (
               <button
                 type="button"

@@ -148,6 +148,8 @@ export type Database = {
           sort_order: number
           name: string
           amount: string
+          ingredient_id: string | null
+          amount_grams: number | null
           calories: number
           protein: number
           carbs: number
@@ -163,6 +165,8 @@ export type Database = {
           sort_order?: number
           name: string
           amount?: string
+          ingredient_id?: string | null
+          amount_grams?: number | null
           calories?: number
           protein?: number
           carbs?: number
@@ -178,6 +182,8 @@ export type Database = {
           sort_order?: number
           name?: string
           amount?: string
+          ingredient_id?: string | null
+          amount_grams?: number | null
           calories?: number
           protein?: number
           carbs?: number
@@ -199,6 +205,13 @@ export type Database = {
             columns: ['user_id']
             isOneToOne: false
             referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'recipe_ingredients_ingredient_id_fkey'
+            columns: ['ingredient_id']
+            isOneToOne: false
+            referencedRelation: 'ingredients'
             referencedColumns: ['id']
           },
         ]
@@ -716,6 +729,68 @@ export type Database = {
             columns: ['medication_id']
             isOneToOne: false
             referencedRelation: 'medications'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      ingredients: {
+        Row: {
+          id: string
+          user_id: string
+          name: string
+          description: string
+          icon: string
+          icon_bg: string
+          icon_color: string
+          per_100g_calories: number
+          per_100g_protein: number
+          per_100g_carbs: number
+          per_100g_fat: number
+          per_100g_fiber: number
+          per_100g_caffeine: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          name: string
+          description?: string
+          icon?: string
+          icon_bg?: string
+          icon_color?: string
+          per_100g_calories?: number
+          per_100g_protein?: number
+          per_100g_carbs?: number
+          per_100g_fat?: number
+          per_100g_fiber?: number
+          per_100g_caffeine?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          name?: string
+          description?: string
+          icon?: string
+          icon_bg?: string
+          icon_color?: string
+          per_100g_calories?: number
+          per_100g_protein?: number
+          per_100g_carbs?: number
+          per_100g_fat?: number
+          per_100g_fiber?: number
+          per_100g_caffeine?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'ingredients_user_id_fkey'
+            columns: ['user_id']
+            isOneToOne: false
+            referencedRelation: 'users'
             referencedColumns: ['id']
           },
         ]

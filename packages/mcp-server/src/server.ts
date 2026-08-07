@@ -35,6 +35,12 @@ import {
   logWorkoutEntry,
   saveWorkout,
 } from './workoutHandlers.js'
+import {
+  deleteIngredient,
+  getIngredient,
+  listIngredients,
+  saveIngredient,
+} from './ingredientHandlers.js'
 
 export { createAuthenticatedSupabase, type InputOutputSupabase } from './supabase.js'
 
@@ -322,6 +328,14 @@ export const tools: Tool[] = [
             fat: { type: 'number' },
             fiber: { type: 'number' },
             caffeine: { type: 'number' },
+            ingredientId: {
+              type: 'string',
+              description: 'Optional linked catalog ingredient id (from ingredients tool)',
+            },
+            amountGrams: {
+              type: 'number',
+              description: 'Optional grams for the catalog ingredient when ingredientId is set',
+            },
           },
           required: ['name', 'calories', 'protein'],
         },
@@ -332,6 +346,56 @@ export const tools: Tool[] = [
     name: 'delete_recipe',
     description: 'Input Output: delete a saved recipe by id.',
     inputSchema: objectSchema({ id: { type: 'string', description: 'Recipe id' } }, ['id']),
+  },
+  {
+    name: 'list_ingredients',
+    description:
+      'Input Output: list saved ingredient catalog entries (macros defined per 100g).',
+    inputSchema: objectSchema({}),
+  },
+  {
+    name: 'get_ingredient',
+    description: 'Input Output: get a saved catalog ingredient by id.',
+    inputSchema: objectSchema(
+      { id: { type: 'string', description: 'Ingredient id' } },
+      ['id'],
+    ),
+  },
+  {
+    name: 'save_ingredient',
+    description:
+      'Input Output: create or update a catalog ingredient with per-100g macros. Pass id to update. Macro values may be provided inline (calories, protein, ...) or nested under per100g.',
+    inputSchema: objectSchema({
+      id: { type: 'string', description: 'Ingredient id when updating' },
+      name: { type: 'string', description: 'Ingredient name' },
+      description: { type: 'string', description: 'Optional description' },
+      icon: { type: 'string' },
+      iconBg: { type: 'string' },
+      iconColor: { type: 'string' },
+      calories: { type: 'number', description: 'Calories per 100g' },
+      protein: { type: 'number', description: 'Protein grams per 100g' },
+      carbs: { type: 'number', description: 'Carbohydrate grams per 100g' },
+      fat: { type: 'number', description: 'Fat grams per 100g' },
+      fiber: { type: 'number', description: 'Fiber grams per 100g' },
+      caffeine: { type: 'number', description: 'Caffeine mg per 100g' },
+      per100g: {
+        type: 'object',
+        description: 'Nested per-100g macro object (calories, protein, carbs, fat, fiber, caffeine)',
+        properties: {
+          calories: { type: 'number' },
+          protein: { type: 'number' },
+          carbs: { type: 'number' },
+          fat: { type: 'number' },
+          fiber: { type: 'number' },
+          caffeine: { type: 'number' },
+        },
+      },
+    }, ['name']),
+  },
+  {
+    name: 'delete_ingredient',
+    description: 'Input Output: delete a catalog ingredient by id.',
+    inputSchema: objectSchema({ id: { type: 'string', description: 'Ingredient id' } }, ['id']),
   },
   {
     name: 'log_recipe',
@@ -453,7 +517,10 @@ export function createServer(supabase: InputOutputSupabase): Server {
   const workoutTools = tools
     .filter((t) => t.name.endsWith('_workout') || t.name === 'list_workouts')
     .map((t) => t.name)
-  const instructions = `input output tools for food inputs, saved recipes, saved workouts, and activity outputs. Food: ${foodTools.join(', ')}. Recipes: ${recipeTools.join(', ')}. Workouts: ${workoutTools.join(', ')}. Activities: ${activityTools.join(', ')}. Use log_recipe or add_food_entry to log meals; log_workout or add_activity for outputs. All data is scoped to the signed-in user.`
+  const ingredientTools = tools
+    .filter((t) => t.name.includes('ingredient') && (t.name.endsWith('_ingredient') || t.name === 'list_ingredients'))
+    .map((t) => t.name)
+  const instructions = `input output tools for food inputs, saved recipes, a reusable ingredient catalog, saved workouts, and activity outputs. Food: ${foodTools.join(', ')}. Recipes: ${recipeTools.join(', ')}. Ingredients: ${ingredientTools.join(', ')}. Workouts: ${workoutTools.join(', ')}. Activities: ${activityTools.join(', ')}. Use log_recipe or add_food_entry to log meals; log_workout or add_activity for outputs. Recipes can reference catalog ingredients by ingredientId with gram-based macros. All data is scoped to the signed-in user.`
 
   const server = new Server(
     { name: SERVER_NAME, version: SERVER_VERSION },
@@ -565,6 +632,28 @@ export function createServer(supabase: InputOutputSupabase): Server {
         case 'log_recipe': {
           const entry = await logRecipeEntry(supabase, a)
           return { content: [{ type: 'text', text: JSON.stringify(entry) }] }
+        }
+
+        case 'list_ingredients': {
+          const ingredients = await listIngredients(supabase)
+          return { content: [{ type: 'text', text: JSON.stringify(ingredients) }] }
+        }
+
+        case 'get_ingredient': {
+          if (typeof a.id !== 'string' || a.id === '') throw new Error('id is required')
+          const ingredient = await getIngredient(supabase, a.id)
+          return { content: [{ type: 'text', text: JSON.stringify(ingredient) }] }
+        }
+
+        case 'save_ingredient': {
+          const ingredient = await saveIngredient(supabase, a)
+          return { content: [{ type: 'text', text: JSON.stringify(ingredient) }] }
+        }
+
+        case 'delete_ingredient': {
+          if (typeof a.id !== 'string' || a.id === '') throw new Error('id is required')
+          const result = await deleteIngredient(supabase, a.id)
+          return { content: [{ type: 'text', text: JSON.stringify(result) }] }
         }
 
         case 'list_workouts': {

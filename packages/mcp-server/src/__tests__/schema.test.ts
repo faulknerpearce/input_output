@@ -7,7 +7,7 @@ describe('publicToolManifest', () => {
     const manifest = publicToolManifest()
 
     expect(manifest.serverInfo.name).toBe('input_output')
-    expect(manifest.tools).toHaveLength(21)
+    expect(manifest.tools).toHaveLength(25)
 
     for (const tool of manifest.tools) {
       expect(ToolSchema.safeParse(tool).success).toBe(true)

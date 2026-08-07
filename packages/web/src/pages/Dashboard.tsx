@@ -14,10 +14,8 @@ import {
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNutritionGoals, useProfile } from '../context/useProfile'
 import { sectionHeader as sectionLabelStyle } from '../lib/styles'
-import ActivityOverviewPanel from '../components/dashboard/ActivityOverviewPanel'
 import DailyIoCard from '../components/dashboard/DailyIoCard'
 
-import NutritionRingsPanel from '../components/dashboard/NutritionRingsPanel'
 import TrendsPanel from '../components/dashboard/TrendsPanel'
 import DashboardPreviewList, { PreviewEmpty, PreviewRow } from '../components/DashboardPreviewList'
 import PageHeader from '../components/layout/PageHeader'
@@ -309,26 +307,6 @@ export default function Dashboard() {
           onCustomStartChange={setCustomStart}
           onCustomEndChange={setCustomEnd}
         />
-      </section>
-
-      <section style={{ marginBottom: 40 }}>
-        <SectionHeader
-          label="Nutrition"
-          title="Today's Inputs"
-          href={routeHref('inputs')}
-          linkLabel="View Inputs"
-        />
-        <NutritionRingsPanel entries={entries} goals={nutritionGoals} />
-      </section>
-
-      <section style={{ marginBottom: 40 }}>
-        <SectionHeader
-          label="Activity"
-          title="Today's Outputs"
-          href={routeHref('outputs')}
-          linkLabel="View Outputs"
-        />
-        <ActivityOverviewPanel activities={activities} />
       </section>
 
       <section style={{ marginBottom: 32 }}>

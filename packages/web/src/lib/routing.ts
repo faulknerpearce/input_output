@@ -2,6 +2,7 @@ export type AppRoute =
   | 'dashboard'
   | 'inputs'
   | 'inputs/recipes'
+  | 'inputs/ingredients'
   | 'inputs/medications'
   | 'outputs'
   | 'outputs/workouts'
@@ -19,6 +20,7 @@ export function parseHashRoute(hash: string): AppRoute {
   const path = hash.replace(/^#/, '').replace(/^\//, '')
   if (path in LEGACY_REDIRECTS) return LEGACY_REDIRECTS[path]
   if (path === 'inputs/recipes') return 'inputs/recipes'
+  if (path === 'inputs/ingredients') return 'inputs/ingredients'
   if (path === 'inputs/medications') return 'inputs/medications'
   if (path === 'outputs/workouts') return 'outputs/workouts'
   if (path === 'inputs') return 'inputs'
@@ -31,6 +33,7 @@ export function parseHashRoute(hash: string): AppRoute {
 export function routeHref(route: AppRoute): string {
   if (route === 'inputs') return '#/inputs'
   if (route === 'inputs/recipes') return '#/inputs/recipes'
+  if (route === 'inputs/ingredients') return '#/inputs/ingredients'
   if (route === 'inputs/medications') return '#/inputs/medications'
   if (route === 'outputs') return '#/outputs'
   if (route === 'outputs/workouts') return '#/outputs/workouts'

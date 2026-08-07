@@ -7,6 +7,8 @@ export interface RecipeIngredient {
   name: string
   amount: string
   sortOrder: number
+  ingredientId?: string | null
+  amountGrams?: number | null
   calories: number
   protein: number
   carbs: number
@@ -100,10 +102,12 @@ export function mapRecipeRow(row: {
 
 export function mapRecipeIngredientRow(row: {
   id: string
-  recipe_id: string
+  recipe_id?: string
   sort_order: number
   name: string
   amount: string
+  ingredient_id?: string | null
+  amount_grams?: number | string | null
   calories: number
   protein: number
   carbs: number
@@ -111,11 +115,24 @@ export function mapRecipeIngredientRow(row: {
   fiber: number
   caffeine: number
 }): RecipeIngredient {
+  const amountGramsRaw = row.amount_grams
+  const amountGrams =
+    amountGramsRaw === null || amountGramsRaw === undefined || amountGramsRaw === ''
+      ? null
+      : typeof amountGramsRaw === 'number'
+        ? amountGramsRaw
+        : Number.parseFloat(String(amountGramsRaw))
+
   return {
     id: row.id,
     name: row.name,
     amount: row.amount,
     sortOrder: row.sort_order,
+    ingredientId: row.ingredient_id ?? null,
+    amountGrams:
+      amountGrams !== null && Number.isFinite(amountGrams) && amountGrams >= 0
+        ? amountGrams
+        : null,
     calories: row.calories,
     protein: row.protein,
     carbs: row.carbs,
@@ -159,6 +176,14 @@ export function validateRecipeIngredientInput(
         typeof input.sortOrder === 'number' && Number.isInteger(input.sortOrder)
           ? input.sortOrder
           : 0,
+      ingredientId:
+        typeof input.ingredientId === 'string' && input.ingredientId.trim() !== ''
+          ? input.ingredientId.trim()
+          : null,
+      amountGrams:
+        typeof input.amountGrams === 'number' && input.amountGrams >= 0
+          ? input.amountGrams
+          : null,
       calories: input.calories,
       protein: input.protein,
       carbs: input.carbs ?? 0,
@@ -260,6 +285,8 @@ export function buildRecipeIngredientInsertPayload(
   sort_order: number
   name: string
   amount: string
+  ingredient_id: string | null
+  amount_grams: number | null
   calories: number
   protein: number
   carbs: number
@@ -278,6 +305,8 @@ export function buildRecipeIngredientInsertPayload(
     sort_order: value.sortOrder,
     name: value.name,
     amount: value.amount,
+    ingredient_id: value.ingredientId ?? null,
+    amount_grams: value.amountGrams ?? null,
     calories: value.calories,
     protein: value.protein,
     carbs: value.carbs,

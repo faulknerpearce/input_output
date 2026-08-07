@@ -6,18 +6,27 @@ import ZoneButton from '../components/layout/ZoneButton'
 import ZoneSubNav from '../components/layout/ZoneSubNav'
 import InputsPage from './InputsPage'
 import RecipesPage from './RecipesPage'
+import IngredientsPage from './IngredientsPage'
 
 interface InputsZoneProps {
-  route: Extract<AppRoute, 'inputs' | 'inputs/recipes'>
+  route: Extract<
+    AppRoute,
+    'inputs' | 'inputs/recipes' | 'inputs/ingredients'
+  >
 }
 
 export default function InputsZone({ route }: InputsZoneProps) {
   const isRecipes = route === 'inputs/recipes'
+  const isIngredients = route === 'inputs/ingredients'
   const openCreateRecipeRef = useRef<(() => void) | null>(null)
+  const openCreateIngredientRef = useRef<(() => void) | null>(null)
   const openAddEntryRef = useRef<(() => void) | null>(null)
   const openBarcodeScannerRef = useRef<(() => void) | null>(null)
-  const handleOpenCreateReady = useCallback((openCreate: () => void) => {
+  const handleOpenCreateRecipeReady = useCallback((openCreate: () => void) => {
     openCreateRecipeRef.current = openCreate
+  }, [])
+  const handleOpenCreateIngredientReady = useCallback((openCreate: () => void) => {
+    openCreateIngredientRef.current = openCreate
   }, [])
   const handleOpenAddEntryReady = useCallback((openAddEntry: () => void) => {
     openAddEntryRef.current = openAddEntry
@@ -29,17 +38,23 @@ export default function InputsZone({ route }: InputsZoneProps) {
   return (
     <PageShell zone="inputs">
       <PageHeader
-        eyebrow={isRecipes ? 'Inputs › Recipes' : 'Inputs'}
-        title={isRecipes ? 'Recipes' : 'Food Log'}
+        eyebrow={isRecipes ? 'Inputs › Recipes' : isIngredients ? 'Inputs › Ingredients' : 'Inputs'}
+        title={isRecipes ? 'Recipes' : isIngredients ? 'Ingredients' : 'Food Log'}
         description={
           isRecipes
             ? 'Saved meal templates for quick logging.'
-            : 'Browse days and log food entries with stats and history.'
+            : isIngredients
+              ? 'Reusable ingredients, with macros per 100g, to build recipes.'
+              : 'Browse days and log food entries with stats and history.'
         }
         actions={
           isRecipes ? (
             <ZoneButton variant="primary" onClick={() => openCreateRecipeRef.current?.()}>
               <i className="fa-solid fa-plus" aria-hidden="true" /> New Recipe
+            </ZoneButton>
+          ) : isIngredients ? (
+            <ZoneButton variant="primary" onClick={() => openCreateIngredientRef.current?.()}>
+              <i className="fa-solid fa-plus" aria-hidden="true" /> New Ingredient
             </ZoneButton>
           ) : (
             <>
@@ -58,10 +73,13 @@ export default function InputsZone({ route }: InputsZoneProps) {
         items={[
           { route: 'inputs', label: 'Log' },
           { route: 'inputs/recipes', label: 'Recipes' },
+          { route: 'inputs/ingredients', label: 'Ingredients' },
         ]}
       />
       {isRecipes ? (
-        <RecipesPage onOpenCreateReady={handleOpenCreateReady} />
+        <RecipesPage onOpenCreateReady={handleOpenCreateRecipeReady} />
+      ) : isIngredients ? (
+        <IngredientsPage onOpenCreateReady={handleOpenCreateIngredientReady} />
       ) : (
         <InputsPage
           onOpenAddEntryReady={handleOpenAddEntryReady}

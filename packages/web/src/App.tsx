@@ -66,7 +66,7 @@ function AppContent() {
           <PageShell zone="profile">
             <MedicationsPage />
           </PageShell>
-        ) : route === 'inputs' || route === 'inputs/recipes' ? (
+        ) : route === 'inputs' || route === 'inputs/recipes' || route === 'inputs/ingredients' ? (
           <InputsZone route={route} />
         ) : route === 'outputs' || route === 'outputs/workouts' ? (
           <OutputsZone route={route} />
