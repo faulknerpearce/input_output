@@ -43,6 +43,9 @@ export function createAuthContextValue(
     loading: false,
     signUp: async () => ({ error: null }),
     signIn: async () => ({ error: null }),
+    requestPasswordReset: async () => ({ error: null }),
+    updatePassword: async () => ({ error: null }),
+    passwordRecovery: false,
     signOut: async () => {},
     ...overrides,
   }

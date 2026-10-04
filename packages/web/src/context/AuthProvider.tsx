@@ -19,6 +19,38 @@ function clearSupabaseAuthStorage() {
   }
 }
 
+const PASSWORD_RECOVERY_KEY = 'input-output-password-recovery'
+
+function readPasswordRecovery(): boolean {
+  try {
+    if (sessionStorage.getItem(PASSWORD_RECOVERY_KEY) === '1') return true
+  } catch {
+    // ignore private-mode / blocked storage
+  }
+
+  const hash = window.location.hash.replace(/^#/, '')
+  const hashParams = new URLSearchParams(hash)
+  if (hashParams.get('type') === 'recovery') {
+    try {
+      sessionStorage.setItem(PASSWORD_RECOVERY_KEY, '1')
+    } catch {
+      // ignore private-mode / blocked storage
+    }
+    return true
+  }
+
+  return false
+}
+
+function writePasswordRecovery(active: boolean) {
+  try {
+    if (active) sessionStorage.setItem(PASSWORD_RECOVERY_KEY, '1')
+    else sessionStorage.removeItem(PASSWORD_RECOVERY_KEY)
+  } catch {
+    // ignore private-mode / blocked storage
+  }
+}
+
 // Sign-up seeds `auth.users` metadata; migration 0002's `handle_new_user` trigger
 // copies that into `public.profiles.display_name`. The UI reads the profile row
 // via ProfileProvider; profile saves update `profiles` and sync metadata back
@@ -26,6 +58,12 @@ function clearSupabaseAuthStorage() {
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null)
   const [loading, setLoading] = useState(true)
+  const [passwordRecovery, setPasswordRecovery] = useState(readPasswordRecovery)
+
+  const setRecovery = useCallback((active: boolean) => {
+    setPasswordRecovery(active)
+    writePasswordRecovery(active)
+  }, [])
 
   useEffect(() => {
     let cancelled = false
@@ -75,8 +113,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, nextSession) => {
+      if (event === 'PASSWORD_RECOVERY') {
+        setRecovery(true)
+      }
       if (event === 'SIGNED_OUT') {
         clearSupabaseAuthStorage()
+        setRecovery(false)
       }
       setSession(nextSession)
       setLoading(false)
@@ -86,7 +128,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       cancelled = true
       subscription.unsubscribe()
     }
-  }, [])
+  }, [setRecovery])
 
   const signUp = useCallback(async (email: string, password: string, displayName: string) => {
     const { error } = await supabase.auth.signUp({
@@ -102,10 +144,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return { error: error?.message ?? null }
   }, [])
 
+  const requestPasswordReset = useCallback(async (email: string) => {
+    const redirectTo = new URL(window.location.pathname, window.location.origin).href
+    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo })
+    return { error: error?.message ?? null }
+  }, [])
+
+  const updatePassword = useCallback(
+    async (password: string) => {
+      const { error } = await supabase.auth.updateUser({ password })
+      if (!error) setRecovery(false)
+      return { error: error?.message ?? null }
+    },
+    [setRecovery],
+  )
+
   const signOut = useCallback(async () => {
+    setRecovery(false)
     await supabase.auth.signOut()
     clearSupabaseAuthStorage()
-  }, [])
+  }, [setRecovery])
 
   const value = useMemo(
     () => ({
@@ -114,9 +172,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       loading,
       signUp,
       signIn,
+      requestPasswordReset,
+      updatePassword,
+      passwordRecovery,
       signOut,
     }),
-    [session, loading, signUp, signIn, signOut],
+    [
+      session,
+      loading,
+      signUp,
+      signIn,
+      requestPasswordReset,
+      updatePassword,
+      passwordRecovery,
+      signOut,
+    ],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

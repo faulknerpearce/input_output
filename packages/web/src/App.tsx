@@ -32,7 +32,7 @@ function useHashRoute() {
 }
 
 function AppContent() {
-  const { session, loading } = useAuth()
+  const { session, loading, passwordRecovery } = useAuth()
   const route = useHashRoute()
 
   if (loading) {
@@ -47,7 +47,7 @@ function AppContent() {
     )
   }
 
-  if (!session) {
+  if (!session || passwordRecovery) {
     return <AuthPage />
   }
 

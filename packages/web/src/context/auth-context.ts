@@ -11,6 +11,10 @@ export interface AuthContextValue {
     displayName: string,
   ) => Promise<{ error: string | null }>
   signIn: (email: string, password: string) => Promise<{ error: string | null }>
+  requestPasswordReset: (email: string) => Promise<{ error: string | null }>
+  updatePassword: (password: string) => Promise<{ error: string | null }>
+  /** True after the user opens a password-recovery link, until they set a new password or leave. */
+  passwordRecovery: boolean
   signOut: () => Promise<void>
 }
 
