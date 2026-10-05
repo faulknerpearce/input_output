@@ -145,8 +145,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const requestPasswordReset = useCallback(async (email: string) => {
-    const redirectTo = new URL(window.location.pathname, window.location.origin).href
-    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo })
+    // Exact Site URL. A trailing slash is a different allow-list entry, and Supabase
+    // then falls back to the project Site URL instead of the page that sent the request.
+    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: 'https://input-output.pages.dev',
+    })
     return { error: error?.message ?? null }
   }, [])
 
